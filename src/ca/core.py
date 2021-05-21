@@ -20,4 +20,5 @@ class CertificateAuthority:
         self._password = password
 
     def sign(self, csr, certificate_filename: str):
+        # A completer
         pass
