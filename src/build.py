@@ -20,7 +20,7 @@ CA_PASSWORD = "UnSuperMDPdeCa"
 SERVER_PASSWORD = "UnSuperMDPdeServer"
 
 CA_CONFIGURATION = Configuration("PE","Ancash","Chimbote","Gaggle","www.gaggle.com")
-SERVER_CONFIGURATION = Configuration("FR","France","Paris","UtMb","www.utmb.com")
+SERVER_CONFIGURATION = Configuration("FR","France","Paris","UtMb","www.utmb.com",["127.0.0.1"])
 
 # Création de l'autorité de certification
 certificate_authority = CertificateAuthority(CA_CONFIGURATION,CA_PASSWORD,CA_PRIVATE_KEY_FILENAME,CA_PUBLIC_KEY_FILENAME)

@@ -31,6 +31,7 @@ def get_secret_message():
 
 if __name__ == "__main__":
     # HTTP version
-    # app.run(debug=True, host="0.0.0.0", port=8081)
+    #app.run(debug=True, host="0.0.0.0", port=8081)
     # HTTPS version
     app.run(ssl_context=(SERVER_PUBLIC_KEY_FILENAME, SERVER_PRIVATE_KEY_FILENAME))
+    
