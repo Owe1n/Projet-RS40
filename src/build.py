@@ -20,17 +20,15 @@ CA_PASSWORD = "UnSuperMDPdeCa"
 SERVER_PASSWORD = "UnSuperMDPdeServer"
 
 CA_CONFIGURATION = Configuration("PE","Ancash","Chimbote","Gaggle","www.gaggle.com")
-# SERVER_CONFIGURATION = Configuration( # A compléter
+SERVER_CONFIGURATION = Configuration("FR","France","Paris","UtMb","www.utmb.com")
 
 # Création de l'autorité de certification
 certificate_authority = CertificateAuthority(CA_CONFIGURATION,CA_PASSWORD,CA_PRIVATE_KEY_FILENAME,CA_PUBLIC_KEY_FILENAME)
 
 # Création du server
-# server = Server(
-#     # A compléter
-# )
+server = Server(SERVER_CONFIGURATION,SERVER_PASSWORD,SERVER_PRIVATE_KEY_FILENAME,SERVER_CSR_FILENAME)
 
 # Signature du certificat par l'autorité de certification
-# signed_certificate = # A compléter
+signed_certificate = certificate_authority.sign(server.get_csr(),SERVER_PUBLIC_KEY_FILENAME)
 
 print("finished ...")

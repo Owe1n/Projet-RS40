@@ -18,6 +18,6 @@ SERVER_PRIVATE_KEY_FILENAME = RESOURCES_DIR + "server-private-key.pem"
 SERVER_CSR_FILENAME = RESOURCES_DIR + "server-csr.pem"
 SERVER_PUBLIC_KEY_FILENAME = RESOURCES_DIR + "server-public-key.pem"
 
-certs = pem.parse_file(CA_PUBLIC_KEY_FILENAME)
-
-print(certs)
+certCa = pem.parse_file(CA_PUBLIC_KEY_FILENAME)
+certServerSigned = pem.parse_file(SERVER_PUBLIC_KEY_FILENAME)
+print(f"Certificat du CA : {certCa} \nCertificat signé du Serveur : {certServerSigned}  ")
