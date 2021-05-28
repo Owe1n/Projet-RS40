@@ -9,7 +9,7 @@ Modified on April 2021
 
 """
 
-from flask import Flask
+from flask import Flask,  render_template, redirect
 from flask import request
 import sys
 import logging
@@ -44,11 +44,25 @@ fileLogger.addHandler(fileHandler)
 
 
 @app.route("/")
+def home():
+    return redirect("/login")
+
+
+@app.route("/secret")
 def get_secret_message():
     ip_address = request.remote_addr
     fileLogger.warning(f'{ip_address} was connected at {datetime.datetime.now()} ')
     
     return SECRET_MESSAGE
+
+@app.route("/login" , methods=("GET","POST"))
+def login():
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+        print(f"User = {username}")
+    
+    return render_template("index.html")
 
 
 if __name__ == "__main__":
