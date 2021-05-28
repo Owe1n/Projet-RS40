@@ -58,7 +58,7 @@ def read_configuration(config: Configuration):
 def generate_private_key(filename: str, password: str):
     # 65537 est l'exposant public magique
     private_key = rsa.generate_private_key(
-        public_exponent=65537, key_size=2048, backend=default_backend()
+        public_exponent=65537, key_size=4096, backend=default_backend()
     )
 
     # Paramètres d'encodage pour le chiffrement de la clé privée
@@ -89,7 +89,7 @@ def generate_public_key(private_key, filename: str, config: Configuration):
 
     # Durée de validité de la clé publique (60 jours)
     valid_from = datetime.utcnow()
-    valid_to = valid_from + timedelta(days=60)
+    valid_to = valid_from + timedelta(days=30)
 
     # Ajout de toutes les informations au constructeur de la clé publique, pour que l'ensemble soit signé
     builder = (
@@ -101,6 +101,7 @@ def generate_public_key(private_key, filename: str, config: Configuration):
             .not_valid_before(valid_from)
             .not_valid_after(valid_to)
             .add_extension(x509.BasicConstraints(ca=True, path_length=None), critical=True, )
+            
     )
 
     # Signature du certificat avec la clé privée
