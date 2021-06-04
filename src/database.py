@@ -133,13 +133,13 @@ if __name__ == '__main__':
     # else:
     #     print("Login deja pris")
     # dbaccess.sign_up("owein", "lafamosa")
-    res = dbaccess.sign_in("theo", "lafamosa")
-    if res == 0:
-        print("Connexion réussi")
-    elif res == 1:
-        print("Login inexistant")
-    else:
-        print("Mot de passe incorrect")
+    # res = dbaccess.sign_in("theo", "lafamosa")
+    # if res == 0:
+    #     print("Connexion réussi")
+    # elif res == 1:
+    #     print("Login inexistant")
+    # else:
+    #     print("Mot de passe incorrect")
 
     conn = sqlite3.connect("bdd/password.db")
     curs = conn.cursor()
