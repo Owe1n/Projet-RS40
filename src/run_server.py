@@ -9,12 +9,15 @@ Modified on April 2021
 
 """
 
-from flask import Flask,  render_template, redirect
+from flask import Flask,  render_template, redirect, session
 from flask import request
+
 import sys
 import logging
 from logging.config import dictConfig
 import datetime
+from database import DBAccess
+
 
 
 # définir le message secret
@@ -29,30 +32,36 @@ SERVER_CSR_FILENAME = RESOURCES_DIR + "server-csr.pem"
 SERVER_PUBLIC_KEY_FILENAME = RESOURCES_DIR + "server-public-key.pem"
 
 
-
-
 app = Flask(__name__)
+
 
 fileLogger = logging.getLogger('file')
 fileHandler = logging.FileHandler("./logs/connexions.log")
 fileLogger.addHandler(fileHandler)
 
 
+app.secret_key = 'A_SECRET_KEY'
 
 
-# logging.basicConfig(filename='./logs/connexions.log',  level=logging.WARNING)
 
+db = DBAccess()
 
 @app.route("/")
 def home():
+
     return redirect("/login")
 
 
 @app.route("/secret")
 def get_secret_message():
-    ip_address = request.remote_addr
-    fileLogger.warning(f'{ip_address} was connected at {datetime.datetime.now()} ')
-    
+    if "isConnected" in session:
+        if session["isConnected"] != True:
+            return redirect("/login")
+        ip_address = request.remote_addr
+        fileLogger.warning(f'{ip_address} had access to secret at {datetime.datetime.now()} ')
+        session.pop("isConnected",None)
+    else :
+         return redirect("/login")
     return SECRET_MESSAGE
 
 @app.route("/login" , methods=("GET","POST"))
@@ -60,13 +69,34 @@ def login():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
-        print(f"User = {username}")
-    
+        if db.sign_in(username,password) == 0:
+            session['isConnected'] = True
+            if username == "admin" :
+                session['isAdmin'] = True
+                return redirect("/addUser")
+            return redirect("/secret")
+        
+    ip_address = request.remote_addr
+    fileLogger.warning(f'{ip_address} had access to login at {datetime.datetime.now()} ')
     return render_template("index.html")
+@app.route("/addUser" , methods=("GET","POST"))
+def addUser():
+    if "isAdmin" in session:
+        if request.method == 'POST':
+                username = request.form['username']
+                password = request.form['password']
+                db.sign_up(username,password)
+    else : 
+        return redirect("/login")
+    return render_template("addUser.html")
 
+@app.route("/logout" , methods=("GET","POST"))
+def logout():
+    session.pop("isAdmin",None)
+    return redirect("/login")
 
 if __name__ == "__main__":
-
+    
 
     # HTTP version
     #app.run(debug=True, host="0.0.0.0", port=8081)

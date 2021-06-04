@@ -1,45 +1,6 @@
 import bcrypt
 import sqlite3
 
-# mdp = b"UnSuperMDP"
-# salt = bcrypt.gensalt()
-# hashed = bcrypt.hashpw(mdp, salt)
-# print(hashed)
-# print(salt)
-
-# conn = sqlite3.connect("bdd/password.db")
-# curs = conn.cursor()
-# curs.execute("SELECT max(id) FROM password")
-# if curs.fetchone()[0] is None:
-#     print("pas de valeurs")
-# conn.commit()
-# curs.execute("DROP TABLE password")
-# conn.commit()
-# curs.execute("""CREATE TABLE password (
-#                     id INTEGER PRIMARY KEY,
-#                     login TEXT NOT NULL UNIQUE,
-#                     pwd BLOB NOT NULL UNIQUE,
-#                     salt BLOB NOT NULL UNIQUE)""")
-# conn.commit()
-#
-# curs.execute("INSERT INTO password VALUES (:id, :login, :pwd, :salt)", {'id': 2, 'login': 'owein', 'pwd': hashed, 'salt': salt})
-# conn.commit()
-
-# curs.execute("SELECT * FROM password")
-# print(curs.fetchall())
-# conn.commit()
-# mdp_bdd = curs.fetchall()[0][2]
-# conn.commit()
-# print(mdp_bdd)
-#
-# mdp = bytes("UnSuperMDP", encoding='utf-8')
-#
-# if bcrypt.checkpw(mdp, mdp_bdd):
-#     print("true")
-# else:
-#     print("false")
-#
-# conn.close()
 
 
 class DBAccess:
@@ -123,29 +84,3 @@ class DBAccess:
 
     def __close(self):
         self.__connection.close()
-
-
-if __name__ == '__main__':
-    dbaccess = DBAccess()
-    # res = dbaccess.sign_up("theo", "lafamosa")
-    # if res == 0:
-    #     print("Création de compte réussi")
-    # else:
-    #     print("Login deja pris")
-    # dbaccess.sign_up("owein", "lafamosa")
-    # res = dbaccess.sign_in("theo", "lafamosa")
-    # if res == 0:
-    #     print("Connexion réussi")
-    # elif res == 1:
-    #     print("Login inexistant")
-    # else:
-    #     print("Mot de passe incorrect")
-
-    conn = sqlite3.connect("bdd/password.db")
-    curs = conn.cursor()
-    # curs.execute("delete from password")
-    # conn.commit()
-    curs.execute("select * from password")
-    print(curs.fetchall())
-    conn.commit()
-    conn.close()
